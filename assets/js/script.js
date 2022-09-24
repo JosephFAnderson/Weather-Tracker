@@ -1,9 +1,9 @@
-var curForecast;
-var fiveForecast = [];
+var searchHistory = [];
 var searchBtn = $('.search');
 var city;
 var today = moment();
 var forecastCard = $('.card-body')
+var searchHistoryUl = $('#history');
 // console.log($(forecastCard[0]).children());
 
 // Check current weather
@@ -60,10 +60,40 @@ function getForecastWeather() {
     });
 }
 
+// Possible function for on page load search history
+// function displayHistory(history) {
+
+
+//   for (var i = 0; i < history.length; i++) {
+//     var newLi = $('<li>');
+//     newLi.addClass("list-group-item");
+//     var newBtn = $('<button>');
+//     newBtn.addClass("btn btn-primary btn-lg btn-block mt-2")
+
+//     newBtn.text(history[i]);
+//     newLi.append(newBtn);
+//     searchHistoryUl.append(newLi);
+//   }
+// }
+
   function getCity(e) {
+
     city = $('.city').val();
     getForecastWeather();
     getCurrentWeather();
+
+    if(!searchHistory.includes(city)){
+      searchHistory.unshift(city);
+      var newLi = $('<li>');
+      var newBtn = $('<button>');
+
+      newLi.addClass("list-group-item");      
+      newBtn.addClass("btn btn-primary btn-lg btn-block mt-2")
+      newBtn.text(city);
+
+      newLi.append(newBtn);
+      searchHistoryUl.prepend(newLi);
+    }    
   }
 
   searchBtn.on('click', getCity);
