@@ -1,10 +1,25 @@
-var searchHistory = [];
-var searchBtn = $('.search');
+var searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+// var searchBtn = $('.search');
+var citiesBtn = $('.cities');
 var city;
 var today = moment();
 var forecastCard = $('.card-body')
 var searchHistoryUl = $('#history');
-// console.log($(forecastCard[0]).children());
+
+// If user has any data in local storage display it on page
+if (searchHistory.length > 0) {
+  for(var i = 0; i < searchHistory.length; i++) {
+      var newLi = $('<li>');
+      var newBtn = $('<button>');
+
+      newLi.addClass("list-group-item");      
+      newBtn.addClass("btn btn-primary btn-lg btn-block mt-2")
+      newBtn.text(searchHistory[i]);
+
+      newLi.append(newBtn);
+      searchHistoryUl.append(newLi);
+  }
+}
 
 // Check current weather
 function getCurrentWeather(){
@@ -14,12 +29,6 @@ function getCurrentWeather(){
       return response.json()
     })
     .then(function (data) {
-      // console.log(data)
-      console.log("Temp: " + data.main.temp + " F");
-      console.log("Humidity: " + data.main.humidity + " %");
-      console.log("Wind speed: " + data.wind.speed + " mph");
-      //weather icon. Use http://openweathermap.org/img/wn/{icon}.png
-      console.log(data.weather[0].icon);
       $('#cityName').text(data.name);
       $('#curDate').text(today.format('M[/]D[/]YYYY'));
       $('#condition').attr('src', 'http://openweathermap.org/img/wn/'+ data.weather[0].icon +'.png');
@@ -60,25 +69,13 @@ function getForecastWeather() {
     });
 }
 
-// Possible function for on page load search history
-// function displayHistory(history) {
-
-
-//   for (var i = 0; i < history.length; i++) {
-//     var newLi = $('<li>');
-//     newLi.addClass("list-group-item");
-//     var newBtn = $('<button>');
-//     newBtn.addClass("btn btn-primary btn-lg btn-block mt-2")
-
-//     newBtn.text(history[i]);
-//     newLi.append(newBtn);
-//     searchHistoryUl.append(newLi);
-//   }
-// }
-
   function getCity(e) {
-
-    city = $('.city').val();
+    if (e.target === $('.search')[0]){
+      city = $('.city').val();
+    } else {
+      city = $(e.target).text();
+    }
+    
     getForecastWeather();
     getCurrentWeather();
 
@@ -93,7 +90,9 @@ function getForecastWeather() {
 
       newLi.append(newBtn);
       searchHistoryUl.prepend(newLi);
+
+      localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
     }    
   }
 
-  searchBtn.on('click', getCity);
+citiesBtn.on('click', 'button', getCity);
