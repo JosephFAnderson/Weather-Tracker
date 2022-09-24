@@ -53,3 +53,7 @@ h3{
     display: flex;
     justify-content: space-around;
 }
+
+.weather{
+    visibility: hidden;
+}

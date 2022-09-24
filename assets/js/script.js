@@ -5,6 +5,7 @@ var city;
 var today = moment();
 var forecastCard = $('.card-body')
 var searchHistoryUl = $('#history');
+var weatherEl = $('.weather');
 
 // If user has any data in local storage display it on page
 if (searchHistory.length > 0) {
@@ -70,13 +71,15 @@ function getForecastWeather() {
 }
 
   function getCity(e) {
+
+
     if (e.target === $('.search')[0]){
       city = $('.city').val();
       $('.city').val("");
     } else {
       city = $(e.target).text();
     }
-    
+    weatherEl.css('visibility', 'visible');
     getForecastWeather();
     getCurrentWeather();
 
