@@ -12,13 +12,13 @@ if (searchHistory.length > 0) {
       var newLi = $('<li>');
       var newBtn = $('<button>');
 
-      newLi.addClass("list-group-item");      
-      newBtn.addClass("btn btn-primary btn-lg btn-block mt-2")
+      newLi.addClass("list-group-item searchList");      
+      newBtn.addClass("btn btn-lg btn-block pastCity")
       newBtn.text(searchHistory[i]);
 
       newLi.append(newBtn);
       searchHistoryUl.append(newLi);
-  }
+  };
 }
 
 // Check current weather
@@ -72,6 +72,7 @@ function getForecastWeather() {
   function getCity(e) {
     if (e.target === $('.search')[0]){
       city = $('.city').val();
+      $('.city').val("");
     } else {
       city = $(e.target).text();
     }
@@ -84,8 +85,8 @@ function getForecastWeather() {
       var newLi = $('<li>');
       var newBtn = $('<button>');
 
-      newLi.addClass("list-group-item");      
-      newBtn.addClass("btn btn-primary btn-lg btn-block mt-2")
+      newLi.addClass("list-group-item searchList");      
+      newBtn.addClass("btn btn-lg btn-block pastCity");
       newBtn.text(city);
 
       newLi.append(newBtn);

@@ -4,35 +4,38 @@
         <meta charset="UTF-8" />
         <title>Weather Tracker</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="./assets/css/style.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     </head>
     <body class="row container-fluid p-0 m-0">
-        <div class="jumbotron col-12 text-center bg-info">
+        <div class="col-12 text-center header">
             <h1 class="display-4">Weather Dashboard</h1>
         </div>
         <section class="cities col-2">
-            <h2 class="font-weight-bold mb-3">Search for a city:</h2>
+            <h2>Search for a city:</h2>
             <div class="input-group input-group-lg">           
                 <input type="text" class="form-control city" placeholder="City" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
             </div>
             <button type="button" class="btn btn-primary btn-lg btn-block border-bottom border-dark mt-2 search">Search</button>
             <hr class="my-4">
-            <ul id="history" class="list-group mt-5">
-                <!-- <li class="list-group-item "><button type="button" class="btn btn-primary btn-lg btn-block mt-2">City 1</button></li> -->
-                
+            <ul id="history" class="list-group mt-5">             
+                <!-- Search history populates here -->
             </ul>
         </section>
         <section class="weather col-10 pl-5">
-            <div class="jumbotron bg-light border border-dark">
+            <div class="jumbotron border border-dark currentWeather">
                 <h1 class="font-weight-bold"><span id="cityName">City Name!</span> <span id="curDate">{Date}</span> <img id="condition" src="" alt="Icon representation of weather condition"></h1>
-                <p id="temp">Temp: </p>
-                <p id="wind">Wind: </p>
-                <p id="humidity">Humidity: </p>
-                <p id="uvi">UV Index: </p>
-              </div>
-            <section class="row">
-                <div class="card col-2 bg-info" style="width: 18rem;">
+                <p id="temp" class="cwInfo">Temp: </p>
+                <p id="wind" class="cwInfo">Wind: </p>
+                <p id="humidity" class="cwInfo">Humidity: </p>
+                <p id="uvi" class="cwInfo">UV Index: </p>
+            </div>
+            <h3>5-Day Forecast:</h3>
+            <section class="row forecastWeather">
+                <div class="card col-2" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Date</h5>
                         <img src="" alt="Icon representing weather condition"/>
@@ -41,7 +44,7 @@
                         <p class="card-text">Humidity</p>                  
                     </div>
                 </div>          
-                <div class="card col-2 bg-info" style="width: 18rem;">
+                <div class="card col-2" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Date</h5>
                         <img src="" alt="Icon representing weather condition"/>
@@ -51,7 +54,7 @@
                     </div>
                     </div>
                 </div>
-                <div class="card col-2 bg-info" style="width: 18rem;">
+                <div class="card col-2" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Date</h5>
                         <img src="" alt="Icon representing weather condition"/>
@@ -61,7 +64,7 @@
                     </div>
                     </div>
                 </div>
-                <div class="card col-2 bg-info" style="width: 18rem;">
+                <div class="card col-2" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Date</h5>
                         <img src="" alt="Icon representing weather condition"/>
@@ -70,7 +73,7 @@
                         <p class="card-text">Humidity</p>                  
                     </div>
                 </div>
-                <div class="card col-2 bg-info" style="width: 18rem;">
+                <div class="card col-2" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Date</h5>
                         <img src="" alt="Icon representing weather condition"/>
