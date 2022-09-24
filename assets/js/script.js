@@ -1,35 +1,35 @@
 var searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-// var searchBtn = $('.search');
 var citiesBtn = $('.cities');
 var city;
-var today = moment();
-var forecastCard = $('.card-body')
 var searchHistoryUl = $('#history');
-var weatherEl = $('.weather');
 
-// If user has any data in local storage display it on page
+// If user has any data in local storage display it to history
 if (searchHistory.length > 0) {
   for(var i = 0; i < searchHistory.length; i++) {
       var newLi = $('<li>');
       var newBtn = $('<button>');
+      var newI = $('<i>');
 
       newLi.addClass("list-group-item searchList");      
       newBtn.addClass("btn btn-lg btn-block pastCity")
+      newI.addClass("fas fa-trash delete");
       newBtn.text(searchHistory[i]);
-
+      
       newLi.append(newBtn);
+      newLi.append(newI);
       searchHistoryUl.append(newLi);
   };
 }
 
-// Check current weather
+// Fetch current weather data for requested city
 function getCurrentWeather(){
-  var requestUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&exclude=hourly,minutely&units=imperial&appid=b04d17a1b02b4977fbc6a49af4c0395d'
-  fetch(requestUrl)
+  var cwUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&exclude=hourly,minutely&units=imperial&appid=b04d17a1b02b4977fbc6a49af4c0395d'
+  fetch(cwUrl)
     .then(function (response) {
       return response.json()
     })
-    .then(function (data) {
+    .then(function (data) {      
+      var today = moment();
       $('#cityName').text(data.name);
       $('#curDate').text(today.format('M[/]D[/]YYYY'));
       $('#condition').attr('src', 'http://openweathermap.org/img/wn/'+ data.weather[0].icon +'.png');
@@ -41,16 +41,21 @@ function getCurrentWeather(){
     });
 }
 
+// Fetch 5-day / 3 hour weather data for requested city
 function getForecastWeather() {
-  // Index for for 5 day forcast every 8: (var i = 1, i <= 5, i++) day = (i*8) -1
-  var forecastUrl = 'http://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=b04d17a1b02b4977fbc6a49af4c0395d'
-  fetch(forecastUrl)
+  var fcUrl = 'http://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=b04d17a1b02b4977fbc6a49af4c0395d'
+  fetch(fcUrl)
     .then(function (response) {
       return response.json();
     })
     .then(function(data) {
-      console.log(data);
+      var forecastCard = $('.card-body');
       for(var i = 1; i <=5; i++) {
+        /*
+        Data returns weather in 3 hour increments. 
+        Multiply index by 8 to increment in 24 hour increments. 
+        -1 to try and get initial pull around same time of day as current time 
+        */
         var forecastIndex = (i*8)-1;
         var tempToday = moment();
         var weatherDate = tempToday.add(i, 'd').format('M[/]D[/]YYYY');
@@ -70,33 +75,57 @@ function getForecastWeather() {
     });
 }
 
+  // Handles the delete history button click
+  // This is outside the scope of the assignment and normally would need to be discussed with the client prior to implementing
+  // However, for practice purposes I implemented it.
+  function deleteCity(e) {
+    var btnTar = $(e.target).siblings()[0]
+    var delCity = $(btnTar).text();
+    var delEl = $(e.target).parent()[0];
+
+    searchHistory.splice(searchHistory.indexOf(delCity), 1);    
+    $(delEl).remove()
+    
+    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+  }
+
+  // Handle Search and History button clicks
   function getCity(e) {
 
-
+    // If they click the search button pull info from input, otherwise grab text of history button
     if (e.target === $('.search')[0]){
       city = $('.city').val();
       $('.city').val("");
+
+      // If user searched a city not in history, then create a new button and add it to history then update local storage
+      if(!searchHistory.includes(city)){
+        searchHistory.unshift(city);
+        var newLi = $('<li>');
+        var newBtn = $('<button>');
+        var newI = $('<i>');
+  
+        newLi.addClass("list-group-item searchList");      
+        newBtn.addClass("btn btn-lg btn-block pastCity")
+        newI.addClass("fas fa-trash delete");
+        newBtn.text(city);
+      
+        newLi.append(newBtn);
+        newLi.append(newI);
+        searchHistoryUl.prepend(newLi);
+  
+        localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+      }  
     } else {
       city = $(e.target).text();
     }
+
+    // Makes sure the weather elements are visible. Defaulted to hidden on page load.
+    var weatherEl = $('.weather');
     weatherEl.css('visibility', 'visible');
+
     getForecastWeather();
-    getCurrentWeather();
-
-    if(!searchHistory.includes(city)){
-      searchHistory.unshift(city);
-      var newLi = $('<li>');
-      var newBtn = $('<button>');
-
-      newLi.addClass("list-group-item searchList");      
-      newBtn.addClass("btn btn-lg btn-block pastCity");
-      newBtn.text(city);
-
-      newLi.append(newBtn);
-      searchHistoryUl.prepend(newLi);
-
-      localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
-    }    
+    getCurrentWeather();      
   }
 
-citiesBtn.on('click', 'button', getCity);
+citiesBtn.on('click', 'button', getCity); 
+citiesBtn.on('click', 'i', deleteCity);
