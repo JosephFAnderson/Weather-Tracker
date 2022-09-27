@@ -32,7 +32,7 @@ function getCurrentWeather(){
       var today = moment();
       $('#cityName').text(data.name);
       $('#curDate').text(today.format('M[/]D[/]YYYY'));
-      $('#condition').attr('src', 'http://openweathermap.org/img/wn/'+ data.weather[0].icon +'.png');
+      $('#condition').attr('src', 'https://openweathermap.org/img/wn/'+ data.weather[0].icon +'.png');
       $('#temp').text("Temp: " + data.main.temp + " °F")
       $('#wind').text("Wind: " + data.wind.speed + " mph");
       $('#humidity').text('Humidity: ' + data.main.humidity + " %");
@@ -43,7 +43,7 @@ function getCurrentWeather(){
 
 // Fetch 5-day / 3 hour weather data for requested city
 function getForecastWeather() {
-  var fcUrl = 'http://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=b04d17a1b02b4977fbc6a49af4c0395d'
+  var fcUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=b04d17a1b02b4977fbc6a49af4c0395d'
   fetch(fcUrl)
     .then(function (response) {
       return response.json();
@@ -66,7 +66,7 @@ function getForecastWeather() {
         var forecastHumidity = $(forecastCard[i-1]).children()[4];
 
         $(forecastDay).text(weatherDate);
-        $(forecastIcon).attr('src', 'http://openweathermap.org/img/wn/'+ data.list[forecastIndex].weather[0].icon +'.png')
+        $(forecastIcon).attr('src', 'https://openweathermap.org/img/wn/'+ data.list[forecastIndex].weather[0].icon +'.png')
         $(forecastTemp).text("Temp: " + data.list[forecastIndex].main.temp + " °F");
         $(forecastWind).text("Wind: " + data.list[forecastIndex].wind.speed + " mph");
         $(forecastHumidity).text('Humidity: ' + data.list[forecastIndex].main.humidity + " %");
