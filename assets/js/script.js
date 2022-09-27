@@ -53,10 +53,11 @@ function getForecastWeather() {
       console.log(data);
       var forecastCard = $('.card-body');
       for(var i = 1; i <=5; i++) {
+        
         /*
-        Data returns weather in 3 hour increments. 
-        Multiply index by 8 to increment in 24 hour increments. 
-        -1 to try and get initial pull around same time of day as current time 
+         Data returns weather in 3 hour increments. 
+         Multiply index by 8 to increment in 24 hour increments. 
+         -1 to try and get initial pull around same time of day as current time 
         */
         var forecastIndex = (i*8)-1;
         var tempToday = moment();
@@ -77,9 +78,11 @@ function getForecastWeather() {
     });
 }
 
-  // Handles the delete history button click
-  // This is outside the scope of the assignment and normally would need to be discussed with the client prior to implementing
-  // However, for practice purposes I implemented it.
+  /* 
+   Handles the delete history button click
+   This is outside the scope of the assignment
+   However, for practice purposes I implemented it. 
+   */
   function deleteCity(e) {
     var btnTar = $(e.target).siblings()[0]
     var delCity = $(btnTar).text();
