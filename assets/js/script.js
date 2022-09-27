@@ -43,7 +43,7 @@ function getCurrentWeather(){
 
 // Fetch 5-day / 3 hour weather data for requested city
 function getForecastWeather() {
-  var fcUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=b04d17a1b02b4977fbc6a49af4c0395d'
+  var fcUrl = 'http://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=b04d17a1b02b4977fbc6a49af4c0395d'
   fetch(fcUrl)
     .then(function (response) {
       return response.json();
